@@ -70,9 +70,8 @@ jobs:
     - name: Manual Build
       run: |
         git submodule update --init
-        mkdir build
-        cd build && cmake ..
-        cd build && make
+        cmake .
+        make
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
