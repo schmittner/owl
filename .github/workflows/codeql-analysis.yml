@@ -47,6 +47,9 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
         queries: security-and-quality
+        paths-ignore:
+          - googletest
+          - radiotap
 
     - name: Install dependencies
       run: sudo apt install libpcap-dev libev-dev libnl-3-dev libnl-genl-3-dev libnl-route-3-dev
