@@ -67,5 +67,12 @@ jobs:
     #   make bootstrap
     #   make release
 
+    - name: Manual Build
+      run: |
+        git submodule update --init
+        mkdir build
+        cd build && cmake ..
+        cd build && make
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
