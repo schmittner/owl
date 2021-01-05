@@ -46,7 +46,7 @@ jobs:
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
-        config-file: ./.github/codeql/codeql-config.yml
+        queries: security-and-quality
 
     - name: Install dependencies
       run: sudo apt-get install libpcap-dev libev-dev libnl-3-dev libnl-genl-3-dev libnl-route-3-dev
@@ -67,11 +67,21 @@ jobs:
     #   make bootstrap
     #   make release
 
-    - name: Manual Build
+    - name: Prepare build environment
       run: |
         git submodule update --init
-        cmake .
-        make
+        cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE
+
+    - name: Build
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      # only build main executable
+      run: cmake --build . --target owl
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
